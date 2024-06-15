@@ -1,5 +1,6 @@
 "use client";
 import Login from '@/components/Login';
+import Register from '@/components/Register';
 import { useState } from 'react';
 
 
@@ -12,7 +13,8 @@ export default function Home() {
       <div className='bg-gray-100 flex w-full h-full' >
          {/* login screen | register screen | history screen */}
          <aside className='h-full border-b border-gray-200 bg-white'>
-            <Login />
+            {/* <Login /> */}
+            <Register />
          </aside>
          {/* chat bot */}
          <aside className='flex-1 h-full w-full'>
