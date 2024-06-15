@@ -1,5 +1,7 @@
 "use client";
+import Login from '@/components/Login';
 import { useState } from 'react';
+
 
 
 export default function Home() {
@@ -7,12 +9,13 @@ export default function Home() {
       { text: 'Hello! How can I help you today?', sender: 'bot' },
     ]);
    return (
-      <main>
-         <h1 className="text-3xl font-bold text-blue-500 text-center p-4">CHAT TWILIO AI</h1>
-         <div className="flex h-screen bg-gray-100">
-            <div className="w-full max-w-md mx-auto my-auto bg-white rounded-lg shadow-lg overflow-hidden">
+      <main role='main' className='flex h-screen bg-gray-100 justify-around' >
+         <Login />
+
+         {/* chat bot */}
+            <div className="w-full max-w-md mx-auto my-auto bg-white rounded-lg shadow-lg overflow-hidden flex-1">
                <div className="p-4 border-b border-gray-200 bg-gray-50">
-                  <h2 className="text-lg font-semibold text-gray-800">Chatbot</h2>
+                  <h1 className="text-lg font-semibold text-gray-800">CHAT TWILIO AI</h1>
                </div>
                <div className="flex flex-col p-4 space-y-4 overflow-y-auto h-96">
                   {messages.map((message, index) => (
@@ -59,7 +62,6 @@ export default function Home() {
                   </form>
                </div>
             </div>
-         </div>
       </main>
    );
 }
