@@ -7,13 +7,16 @@ import { useState } from 'react';
 export default function Home() {
    const [messages, setMessages] = useState([
       { text: 'Hello! How can I help you today?', sender: 'bot' },
-    ]);
+   ]);
    return (
-      <main role='main' className='flex h-screen bg-gray-100 justify-around' >
-         <Login />
-
+      <div className='bg-gray-100 flex w-full h-full' >
+         {/* login screen | register screen | history screen */}
+         <aside className='h-full border-b border-gray-200 bg-white'>
+            <Login />
+         </aside>
          {/* chat bot */}
-            <div className="w-full max-w-md mx-auto my-auto bg-white rounded-lg shadow-lg overflow-hidden flex-1">
+         <aside className='flex-1 h-full w-full'>
+            <div className="w-full h-full bg-white rounded-lg shadow-lg overflow-hidden flex-1">
                <div className="p-4 border-b border-gray-200 bg-gray-50">
                   <h1 className="text-lg font-semibold text-gray-800">CHAT TWILIO AI</h1>
                </div>
@@ -62,6 +65,7 @@ export default function Home() {
                   </form>
                </div>
             </div>
-      </main>
+         </aside>
+      </div>
    );
 }

@@ -6,7 +6,7 @@ export default function Header() {
 //   const { data: session } = useSession();
 
   return (
-    <header className="bg-indigo-600 p-4 shadow-md">
+    <header className="bg-indigo-600 p-4 shadow-md sticky top-0">
       <div className="container mx-auto flex justify-between items-center">
         <div className="flex items-center space-x-4">
           <Link href="/" className="text-white text-xl font-bold">
