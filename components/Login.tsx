@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+// import { useForm } from 'react-hook-form';
 // import gemini from 'gemini';
 
 
@@ -28,10 +28,11 @@ const Login = () => {
                   <label className="block text-sm font-medium text-gray-700">Email</label>
                   <input
                      type="email"
-                     className="w-full px-3 py-2 mt-1 border rounded shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                     className="w-full px-3 py-2 mt-1 border rounded shadow-sm focus:ring-blue-500 focus:border-blue-500 hover:cursor-pointer"
                      value={email}
                      onChange={(e) => setEmail(e.target.value)}
                      required
+                     placeholder='Enter your Email'
                   />
                </div>
                <div>
@@ -42,18 +43,19 @@ const Login = () => {
                      value={password}
                      onChange={(e) => setPassword(e.target.value)}
                      required
+                     placeholder='Enter your password'
                   />
                </div>
                <button
                   type="submit"
-                  className="w-full px-4 py-2 font-medium text-white bg-indigo-600 rounded hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="w-full px-4 py-2 font-medium text-white bg-blue-500 rounded hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                >
                   Login
                </button>
                <p>Are you new?</p>
                <button
                   type="submit"
-                  className="w-full px-4 py-2 font-medium text-white bg-indigo-600 rounded hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="w-full px-4 py-2 font-medium text-white bg-blue-500 rounded hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                >
                   REGISTER
                </button>
