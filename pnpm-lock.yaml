@@ -31,7 +31,7 @@ importers:
         specifier: ^20
         version: 20.14.2
       '@types/react':
-        specifier: ^18
+        specifier: ^18.3.3
         version: 18.3.3
       '@types/react-dom':
         specifier: ^18
