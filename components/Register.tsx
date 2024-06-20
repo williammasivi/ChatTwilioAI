@@ -1,21 +1,22 @@
-import { useState } from 'react';
-// import gemini from 'gemini';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 
 const Register = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
-  const handleRegister = async (e: any) => {
-    e.preventDefault();
+  const onSubmit = async (data) => {
+    const { email, password, confirmPassword } = data;
+
     if (password !== confirmPassword) {
       console.error('Passwords do not match');
       return;
     }
+
     try {
       // const response = await gemini.auth.register({ email, password });
       // console.log('Registration successful', response);
       // Handle successful registration (e.g., redirect, display a message, etc.)
+      alert('Form submitted successfully!');
     } catch (error) {
       console.error('Registration failed', error);
       // Handle registration failure (e.g., display an error message)
@@ -26,7 +27,7 @@ const Register = () => {
     <div className="flex items-center justify-center">
       <div className="w-full max-w-md p-8 space-y-6 bg-white mx-auto">
         <h2 className="text-2xl font-bold text-center">Register</h2>
-        <form className="space-y-4" onSubmit={handleRegister}>
+        <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
           <div>
             <label className="block text-sm font-medium text-gray-700">Email</label>
             <input
@@ -34,10 +35,9 @@ const Register = () => {
               title="Email Address"
               placeholder="Enter your email address"
               className="w-full px-3 py-2 mt-1 border rounded shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
+              {...register('email', { required: true })}
             />
+            {errors.email && <span className="text-red-500">This field is required</span>}
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700">Password</label>
@@ -46,10 +46,9 @@ const Register = () => {
               title="Password"
               placeholder="Enter your password"
               className="w-full px-3 py-2 mt-1 border rounded shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
+              {...register('password', { required: true })}
             />
+            {errors.password && <span className="text-red-500">This field is required</span>}
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700">Confirm Password</label>
@@ -58,10 +57,9 @@ const Register = () => {
               title="Confirm Password"
               placeholder="Confirm your password"
               className="w-full px-3 py-2 mt-1 border rounded shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
+              {...register('confirmPassword', { required: true })}
             />
+            {errors.confirmPassword && <span className="text-red-500">This field is required</span>}
           </div>
           <button
             type="submit"
