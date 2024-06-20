@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: any) => {
     const { email, password } = data;
     try {
       // const response = await gemini.auth.login({ email, password });

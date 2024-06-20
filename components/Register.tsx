@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 const Register = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: any) => {
     const { email, password, confirmPassword } = data;
 
     if (password !== confirmPassword) {
