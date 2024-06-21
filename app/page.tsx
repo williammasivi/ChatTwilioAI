@@ -1,9 +1,11 @@
 "use client";
-import Login from '@/components/Login';
-import Register from '@/components/Register';
+import History from '@/components/History';
 import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import axios from 'axios';
 
+
+const linkBACKEND = 'https://chattwilioai-backend.onrender.com/api/chats';
 interface Message {
   text: string;
   sender: 'bot' | 'user';
@@ -22,15 +24,16 @@ export default function Home() {
 
    const onSubmit: SubmitHandler<FormInputs> = (data) => {
       if (data.message.trim()) {
+         axios.post(linkBACKEND, data.message);
          setMessages([...messages, { text: data.message, sender: 'user' }]);
          reset();
       }
+      alert(data.message);
    };
-
    return (
       <div className='bg-gray-100 flex w-full h-full'>
          <aside className='h-full border-b border-gray-200 bg-white'>
-            <Register />
+            <History messages={['hello', 'how are you?']} />
          </aside>
          <aside className='flex-1 h-full w-full'>
             <div className="w-full h-full bg-white rounded-lg shadow-lg overflow-hidden flex-1">
