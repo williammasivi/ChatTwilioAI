@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-
+import Image from 'next/image';
 
 const Register = () => {
    const { register, handleSubmit, formState: { errors } } = useForm();
@@ -46,7 +46,7 @@ const Register = () => {
             <div className="fixed top-4 right-4 flex items-center space-x-4">
                <label htmlFor="avatarInput" className="cursor-pointer">
                   {avatarUrl ? (
-                     <img src={avatarUrl} alt="Avatar" className="w-16 h-16 rounded-full object-cover border-2 border-blue-500" />
+                     <Image src={avatarUrl} alt="Avatar" className="w-16 h-16 rounded-full object-cover border-2 border-blue-500" />
                   ) : (
                      <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center text-white text-lg border-2 border-blue-500">
                         {userEmail.charAt(0).toUpperCase()}

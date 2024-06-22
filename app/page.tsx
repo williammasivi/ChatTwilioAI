@@ -2,34 +2,59 @@
 import History from '@/components/History';
 import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import axios from 'axios';
 
 
-const linkBACKEND = 'https://chattwilioai-backend.onrender.com/api/chats';
+
+const linkBACKEND = 'https://chattwilioai-backend.onrender.com/api/questions';
 interface Message {
-  text: string;
-  sender: 'bot' | 'user';
+   text: string;
+   role: 'model' | 'user';
+   parts: string;
 }
 
 interface FormInputs {
-  message: string;
+   message: string;
 }
 
 export default function Home() {
-   const [messages, setMessages] = useState<Message[]>([
-      { text: 'Hello! How can I help you today?', sender: 'bot' },
-   ]);
-
+   const [error, setError] = useState("");
+   const [chatHistory, setChatHistory] = useState<Message[]>([]);
    const { register, handleSubmit, reset } = useForm<FormInputs>();
 
-   const onSubmit: SubmitHandler<FormInputs> = (data) => {
-      if (data.message.trim()) {
-         axios.post(linkBACKEND, data.message);
-         setMessages([...messages, { text: data.message, sender: 'user' }]);
-         reset();
+   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+      if (!data.message.trim()) {
+         setError('Error: Please enter something!');
+         return;
       }
-      alert(data.message);
+      try {
+         const options = {
+            method: 'POST',
+            body: JSON.stringify({
+               history: chatHistory,
+               message: data.message
+            }),
+            headers: {
+               'Content-Type': 'application/json'
+            }
+         }
+         const response = await fetch(linkBACKEND, options);
+         const result = await response.text();
+         setChatHistory(function (prevChatHistory) {
+            return [...prevChatHistory, {
+               role: 'user',
+               parts: data.message,
+            },
+            {
+               role: 'model',
+               parts: result
+            }];
+         });
+         reset();
+      } catch (error) {
+         setError('Something went wrong! Please try again later.');
+      }
    };
+   console.log(chatHistory);
    return (
       <div className='bg-gray-100 flex w-full h-full'>
          <aside className='h-full border-b border-gray-200 bg-white'>
@@ -41,19 +66,22 @@ export default function Home() {
                   <h1 className="text-lg font-semibold text-gray-800">CHAT TWILIO AI</h1>
                </div>
                <div className="flex flex-col p-4 space-y-4 overflow-y-auto h-96">
-                  {messages.map((message, index) => (
+                  {error && <p className='text-red-500 text-center'>{error}</p>}
+                  <p>Hello! How can I help you today?</p>
+                  {chatHistory?.map((chatItem, index) => (
                      <div
-                        key={index}
-                        className={`flex ${message.sender === 'bot' ? 'justify-start' : 'justify-end'}`}
+                     key={index}
+                     className={`flex ${chatItem.role == 'model' ? 'justify-start' : 'justify-end'}`}
                      >
-                        <div
-                           className={`${message.sender === 'bot' ? 'bg-gray-200' : 'bg-blue-500 text-white'} p-3 rounded-lg max-w-xs`}
-                        >
-                           {message.text}
-                        </div>
+                        <p className={`p-4 rounded-md ${chatItem.role == 'model' ? 'bg-gray-200' : 'bg-blue-500 text-white'}`}>
+                              
+                                 {chatItem.role} : {chatItem.parts}
+                                 
+                        </p>
                      </div>
                   ))}
                </div>
+               {/* form to send data to the server */}
                <div className="p-4 border-t border-gray-200 bg-gray-50">
                   <form onSubmit={handleSubmit(onSubmit)}>
                      <div className="flex items-center space-x-4">
