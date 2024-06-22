@@ -2,3 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+
+*,
+*::after,
+*::before {
+   font-family: sans-serif;
+}
