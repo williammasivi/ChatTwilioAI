@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import Loading from './loading';
 import Goma from "@/components/Goma"
+import ReactMarkdown from 'react-markdown';
+
 
 const linkBACKEND = 'https://chattwilioai-backend.onrender.com/api/questions';
 
@@ -70,7 +72,8 @@ export default function Home() {
                      >
                         <p className={`p-4 rounded-md ${chatItem?.role == 'model' ? 'bg-gray-200' : 'bg-blue-500 text-white'}`}>
 
-                           {chatItem?.role} : {chatItem?.parts}
+                        <p>{chatItem?.role}:</p>
+                        <ReactMarkdown>{chatItem?.parts}</ReactMarkdown>
 
                         </p>
                      </div>
