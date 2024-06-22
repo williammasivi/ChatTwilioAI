@@ -1,8 +1,11 @@
 "use client";
 import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import Loading from './loading';
-import Goma from "@/components/Goma"
+import Loading from '@/components/Loading';
+import MakeMessageCall from '@/components/MakeMessageCall';
+import ReactMarkdown from 'react-markdown';
+
+
 
 const linkBACKEND = 'https://chattwilioai-backend.onrender.com/api/questions';
 
@@ -62,7 +65,13 @@ export default function Home() {
                <div className="flex flex-col p-4 space-y-4 overflow-y-auto h-96">
                   {error && <p className='text-red-500 text-center'>{error}</p>}
                   <p>Hello! How can I help you today?</p>
-                  <Loading />
+                  {
+                     loading ? (
+                        <div className='flex w-full h-full items-center justify-center'>
+                           <Loading />
+                        </div>
+                     ) : null
+                  }
                   {chatHistory?.map((chatItem, index) => (
                      <div
                         key={index}
@@ -70,10 +79,12 @@ export default function Home() {
                      >
                         <p className={`p-4 rounded-md ${chatItem?.role == 'model' ? 'bg-gray-200' : 'bg-blue-500 text-white'}`}>
 
-                           {chatItem?.role} : {chatItem?.parts}
+                           <p>{chatItem?.role}:</p>
+                           <ReactMarkdown>{chatItem?.parts}</ReactMarkdown>
 
                         </p>
                      </div>
+
                   ))}
                </div>
                {/* form to send data to the server */}
