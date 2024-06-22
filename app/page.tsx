@@ -6,11 +6,6 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 
 
 const linkBACKEND = 'https://chattwilioai-backend.onrender.com/api/questions';
-interface Message {
-   text: string;
-   role: 'model' | 'user';
-   parts: string;
-}
 
 interface FormInputs {
    message: string;
@@ -18,7 +13,7 @@ interface FormInputs {
 
 export default function Home() {
    const [error, setError] = useState("");
-   const [chatHistory, setChatHistory] = useState<Message[]>([]);
+   const [chatHistory, setChatHistory] = useState<Array<{ role: string; parts: string; }>>([]);
    const { register, handleSubmit, reset } = useForm<FormInputs>();
 
    const onSubmit: SubmitHandler<FormInputs> = async (data) => {
@@ -54,7 +49,6 @@ export default function Home() {
          setError('Something went wrong! Please try again later.');
       }
    };
-   console.log(chatHistory);
    return (
       <div className='bg-gray-100 flex w-full h-full'>
          <aside className='h-full border-b border-gray-200 bg-white'>
@@ -70,13 +64,13 @@ export default function Home() {
                   <p>Hello! How can I help you today?</p>
                   {chatHistory?.map((chatItem, index) => (
                      <div
-                     key={index}
-                     className={`flex ${chatItem.role == 'model' ? 'justify-start' : 'justify-end'}`}
+                        key={index}
+                        className={`flex ${chatItem?.role == 'model' ? 'justify-start' : 'justify-end'}`}
                      >
-                        <p className={`p-4 rounded-md ${chatItem.role == 'model' ? 'bg-gray-200' : 'bg-blue-500 text-white'}`}>
-                              
-                                 {chatItem.role} : {chatItem.parts}
-                                 
+                        <p className={`p-4 rounded-md ${chatItem?.role == 'model' ? 'bg-gray-200' : 'bg-blue-500 text-white'}`}>
+
+                           {chatItem?.role} : {chatItem?.parts}
+
                         </p>
                      </div>
                   ))}
