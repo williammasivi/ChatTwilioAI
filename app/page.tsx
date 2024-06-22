@@ -2,13 +2,14 @@
 import History from '@/components/History';
 import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import Markdown from 'markdown-to-jsx';
+
 
 
 const linkBACKEND = 'https://chattwilioai-backend.onrender.com/api/questions';
 interface Message {
    text: string;
-   sender: 'bot' | 'user';
+   role: 'model' | 'user';
+   parts: string;
 }
 
 interface FormInputs {
@@ -17,11 +18,7 @@ interface FormInputs {
 
 export default function Home() {
    const [error, setError] = useState("");
-   const [chatHistory, setChatHistory] = useState<any[] | null>([]);
-   const [messages, setMessages] = useState<Message[]>([
-      { text: 'Hello! How can I help you today?', sender: 'bot' },
-   ]);
-
+   const [chatHistory, setChatHistory] = useState<Message[]>([]);
    const { register, handleSubmit, reset } = useForm<FormInputs>();
 
    const onSubmit: SubmitHandler<FormInputs> = async (data) => {
@@ -70,6 +67,7 @@ export default function Home() {
                </div>
                <div className="flex flex-col p-4 space-y-4 overflow-y-auto h-96">
                   {error && <p className='text-red-500 text-center'>{error}</p>}
+                  <p>Hello! How can I help you today?</p>
                   {chatHistory?.map((chatItem, index) => (
                      <div
                      key={index}
