@@ -2,8 +2,8 @@
 import History from '@/components/History';
 import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-
-
+import Loading from './loading';
+import Goma from "@/components/Goma"
 
 const linkBACKEND = 'https://chattwilioai-backend.onrender.com/api/questions';
 
@@ -52,7 +52,8 @@ export default function Home() {
    return (
       <div className='bg-gray-100 flex w-full h-full'>
          <aside className='h-full border-b border-gray-200 bg-white'>
-            <History messages={['hello', 'how are you?']} />
+            {/* <History messages={['hello', 'how are you?']} /> */}
+            <Goma />
          </aside>
          <aside className='flex-1 h-full w-full'>
             <div className="w-full h-full bg-white rounded-lg shadow-lg overflow-hidden flex-1">
@@ -74,6 +75,8 @@ export default function Home() {
                         </p>
                      </div>
                   ))}
+                  <Loading />
+                  {/* <Goma /> */}
                </div>
                {/* form to send data to the server */}
                <div className="p-4 border-t border-gray-200 bg-gray-50">
