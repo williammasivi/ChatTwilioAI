@@ -4,8 +4,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import Loading from '@/components/Loading';
 import MakeMessageCall from '@/components/MakeMessageCall';
 import ReactMarkdown from 'react-markdown';
-
-
+import removeMd from 'remove-markdown';
 
 const linkBACKEND = 'https://chattwilioai-backend.onrender.com/api/questions';
 
@@ -18,6 +17,24 @@ export default function Home() {
    const [loading, setLoading] = useState(true);
    const [chatHistory, setChatHistory] = useState<Array<{ role: string; parts: string; }>>([]);
    const { register, handleSubmit, reset } = useForm<FormInputs>();
+   const [isSpeaking, setIsSpeaking] = useState(false);
+
+   function speak(text: string) {
+      if ('speechSynthesis' in window) {
+         if (isSpeaking) {
+            window.speechSynthesis.cancel();
+            setIsSpeaking(false);
+         } else {
+            setIsSpeaking(true);
+            const plainText = removeMd(text);
+            const utterance = new SpeechSynthesisUtterance(plainText);
+            utterance.onend = () => setIsSpeaking(false);
+            window.speechSynthesis.speak(utterance);
+         }
+      } else {
+         alert("Text-to-speech not supported in this browser.");
+      }
+   }
 
    const onSubmit: SubmitHandler<FormInputs> = async (data) => {
       setLoading(true);
@@ -55,6 +72,7 @@ export default function Home() {
          setLoading(false);
       }
    };
+
    return (
       <div className='bg-gray-100 flex w-full h-full'>
          <aside className='h-full border-b border-gray-200 bg-white hidden md:block'>
@@ -77,14 +95,19 @@ export default function Home() {
                         key={index}
                         className={`flex ${chatItem?.role == 'model' ? 'justify-start' : 'justify-end'}`}
                      >
-                        <p className={`p-4 rounded-md ${chatItem?.role == 'model' ? 'bg-gray-200' : 'bg-blue-500 text-white'}`}>
-
+                        <div className={`p-4 rounded-md ${chatItem?.role == 'model' ? 'bg-gray-200' : 'bg-blue-500 text-white'} relative`}>
                            <p>{chatItem?.role}:</p>
                            <ReactMarkdown>{chatItem?.parts}</ReactMarkdown>
-
-                        </p>
+                           {chatItem?.role === 'model' && (
+                              <button
+                                 onClick={() => speak(chatItem.parts)}
+                                 className="absolute bottom-2 right-2 bg-blue-500 text-white rounded-full p-2 hover:bg-blue-600 transition-colors"
+                              >
+                                 {isSpeaking ? '🔊' : '🔈'}
+                              </button>
+                           )}
+                        </div>
                      </div>
-
                   ))}
                </div>
                {/* form to send data to the server */}
