@@ -7,7 +7,7 @@ import { useState } from "react";
 export default function Header() {
    const [isMenuOpen, setIsMenuOpen] = useState(false);
    return (
-      <header className="bg-blue-500 p-4 px-12 shadow-md sticky top-0">
+      <header className="bg-blue-500 p-4 shadow-lg sticky top-0">
          <div className="flex items-center justify-between">
             <Link href="/" className="text-white text-xl font-bold flex items-center">
                <Logo />

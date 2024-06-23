@@ -15,6 +15,7 @@ interface FormInputs {
 export default function Home() {
    const [error, setError] = useState("");
    const [loading, setLoading] = useState(true);
+   const [isWelcome, setIsWelcome] = useState(true);
    const [chatHistory, setChatHistory] = useState<Array<{ role: string; parts: string; }>>([]);
    const { register, handleSubmit, reset } = useForm<FormInputs>();
    const [isSpeaking, setIsSpeaking] = useState(false);
@@ -37,6 +38,7 @@ export default function Home() {
    }
 
    const onSubmit: SubmitHandler<FormInputs> = async (data) => {
+      setIsWelcome(false);
       setLoading(true);
       if (!data.message.trim()) {
          setError('Error: Please enter something!');
@@ -75,62 +77,67 @@ export default function Home() {
 
    return (
       <div className='bg-gray-100 flex w-full h-full'>
-         <aside className='h-full border-b border-gray-200 bg-white hidden md:block'>
-            <MakeMessageCall />
+         <aside className='h-full border-b border-r border-gray-200 hidden md:block p-4'>
+            <MakeMessageCall lastResponse={
+               chatHistory?.length == 0 ? "" : chatHistory[chatHistory?.length - 1].parts
+            } />
          </aside>
-         <aside className='flex-1 h-full w-full'>
-            <div className="w-full h-full bg-white rounded-lg shadow-lg overflow-hidden flex-1">
-               <div className="flex flex-col p-4 space-y-4 overflow-y-auto h-96">
-                  {error && <p className='text-red-500 text-center'>{error}</p>}
-                  <p>Hello! How can I help you today?</p>
-                  {
-                     loading ? (
-                        <div className='flex w-full h-full items-center justify-center'>
-                           <Loading />
-                        </div>
-                     ) : null
-                  }
-                  {chatHistory?.map((chatItem, index) => (
-                     <div
-                        key={index}
-                        className={`flex ${chatItem?.role == 'model' ? 'justify-start' : 'justify-end'}`}
-                     >
-                        <div className={`p-4 rounded-md ${chatItem?.role == 'model' ? 'bg-gray-200' : 'bg-blue-500 text-white'} relative`}>
-                           <p>{chatItem?.role}:</p>
-                           <ReactMarkdown>{chatItem?.parts}</ReactMarkdown>
-                           {chatItem?.role === 'model' && (
-                              <button
-                                 onClick={() => speak(chatItem.parts)}
-                                 className="absolute bottom-2 right-2 bg-blue-500 text-white rounded-full p-2 hover:bg-blue-600 transition-colors"
-                              >
-                                 {isSpeaking ? '🔊' : '🔈'}
-                              </button>
-                           )}
-                        </div>
+         <aside className='w-full py-4 flex flex-col'>
+            <div className="overflow-y-auto shadow-lg h-[80%] p-4 overflow-scroll">
+               {error && <p className='text-red-500 text-center font-bold text-2xl'>{error}</p>}
+               {isWelcome && <p className='text-5xl text-blue-500 font-bold text-center mt-12'>Hello! How can I help you today?</p>}
+               {
+                  loading ? (
+                     <div className='flex w-full h-full items-center justify-center'>
+                        <Loading />
                      </div>
-                  ))}
-               </div>
-               {/* form to send data to the server */}
-               <div className="p-4 border-t border-gray-200 bg-gray-50">
-                  <form onSubmit={handleSubmit(onSubmit)}>
-                     <div className="flex items-center space-x-4">
-                        <input
-                           {...register("message")}
-                           type="text"
-                           placeholder="Type a message..."
-                           className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                        <button
-                           type="submit"
-                           className="px-4 py-2 bg-blue-500 text-white rounded-lg"
-                        >
-                           Send
-                        </button>
+                  ) : null
+               }
+               {chatHistory?.map((chatItem, index) => (
+                  <div
+                     key={index}
+                     className={`flex mb-4 ${chatItem?.role == 'model' ? 'justify-start' : 'justify-end'}`}
+                  >
+                     <div className={`p-4 rounded-md ${chatItem?.role == 'model' ? 'bg-gray-200' : 'bg-blue-500 text-white'} relative`}>
+
+                        <p>{chatItem?.role}:</p>
+                        <ReactMarkdown>{chatItem?.parts}</ReactMarkdown>
+                        {chatItem?.role === 'model' && (
+                           <button
+                              onClick={() => speak(chatItem.parts)}
+                              className="absolute bottom-2 right-2 bg-blue-500 text-white rounded-full p-2 hover:bg-blue-600 transition-colors"
+                           >
+                              {isSpeaking ? '🔊' : '🔈'}
+                           </button>
+                        )}
                      </div>
-                  </form>
-               </div>
+                  </div>
+
+               ))}
             </div>
-         </aside>
-      </div>
+
+            {/* form to send data to the server */}
+
+            <form
+               onSubmit={handleSubmit(onSubmit)}
+               className={'p-4 border-t border-gray-200 bg-gray-100 h-[75px]'}>
+               <div className="flex items-center space-x-4">
+                  <input
+                     {...register("message")}
+                     type="text"
+                     placeholder="Type a message..."
+                     className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-700"
+                  />
+                  <button
+                     type="submit"
+                     className="px-4 py-2 bg-blue-500 text-white rounded-lg"
+                  >
+                     Send
+                  </button>
+               </div>
+            </form>
+
+         </aside >
+      </div >
    );
 }
