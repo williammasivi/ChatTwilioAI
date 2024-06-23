@@ -9,7 +9,7 @@ export default function Header() {
    return (
       <header className="bg-blue-500 p-4 shadow-lg sticky top-0">
          <div className="flex items-center justify-between">
-            <Link href="/" className="text-white text-xl font-bold flex items-center">
+            <Link href="/" className="text-white text-xl font-bold flex items-center gap-4">
                <Logo />
                <h1>Twilio AI Chat</h1>
             </Link>
@@ -17,8 +17,8 @@ export default function Header() {
                <Link href="/" className="text-white hover:underline">
                   <p>Home</p>
                </Link>
-               <Link href="/chat" className="text-white hover:underline">
-                  <p>Chat</p>
+               <Link href="/documentations" className="text-white hover:underline">
+                  <p>Documentation</p>
                </Link>
             </nav>
             <div className="md:hidden">
@@ -48,8 +48,8 @@ export default function Header() {
                <Link href="/" className="block text-white hover:underline px-4 py-2">
                   <p>Home</p>
                </Link>
-               <Link href="/chat" className="block text-white hover:underline px-4 py-2">
-                  <p>Chat</p>
+               <Link href="/documentations" className="block text-white hover:underline px-4 py-2">
+                  <p>Documentation</p>
                </Link>
             </nav>
          )}
