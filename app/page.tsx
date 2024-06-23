@@ -37,6 +37,8 @@ export default function Home() {
       }
    }
 
+   // Handle the loading
+   const [isWaitingForAI, setIsWaitingForAi] = useState(false);
    const onSubmit: SubmitHandler<FormInputs> = async (data) => {
       setIsWelcome(false);
       setLoading(true);
@@ -44,6 +46,7 @@ export default function Home() {
          setError('Error: Please enter something!');
          return;
       }
+      setIsWaitingForAi(true);
       try {
          const options = {
             method: 'POST',
@@ -67,11 +70,11 @@ export default function Home() {
                parts: result
             }];
          });
-         setLoading(false);
+         setIsWaitingForAi(false);
          reset();
       } catch (error) {
          setError('Something went wrong! Please try again later.');
-         setLoading(false);
+         setIsWaitingForAi(false);
       }
    };
 
@@ -85,14 +88,8 @@ export default function Home() {
          <aside className='w-full py-4 flex flex-col'>
             <div className="overflow-y-auto shadow-lg h-[80%] p-4 overflow-scroll">
                {error && <p className='text-red-500 text-center font-bold text-2xl'>{error}</p>}
-               {isWelcome && <p className='text-5xl text-blue-500 font-bold text-center mt-12'>Hello! How can I help you today?</p>}
-               {
-                  loading ? (
-                     <div className='flex w-full h-full items-center justify-center'>
-                        <Loading />
-                     </div>
-                  ) : null
-               }
+               {isWelcome && <p className='text-3xl text-slate-500 font-bold text-center mt-12'>Hello! How can I help you today?</p>}
+
                {chatHistory?.map((chatItem, index) => (
                   <div
                      key={index}
@@ -110,10 +107,16 @@ export default function Home() {
                               {isSpeaking ? '🔊' : '🔈'}
                            </button>
                         )}
+
                      </div>
                   </div>
 
                ))}
+                     {isWaitingForAI && (
+                     <div className='flex w-full items-center justify-center'>
+                        <Loading />
+                     </div>
+                  )}
             </div>
 
             {/* form to send data to the server */}
