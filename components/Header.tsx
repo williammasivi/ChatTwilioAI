@@ -17,8 +17,8 @@ export default function Header() {
                <Link href="/" className="text-white hover:underline">
                   <p>Home</p>
                </Link>
-               <Link href="/documentations" className="text-white hover:underline">
-                  <p>Documentation</p>
+               <Link href="/aboutproject" className="text-white hover:underline">
+                  <p>About Project</p>
                </Link>
             </nav>
             <div className="md:hidden">
@@ -48,8 +48,8 @@ export default function Header() {
                <Link href="/" className="block text-white hover:underline px-4 py-2">
                   <p>Home</p>
                </Link>
-               <Link href="/documentations" className="block text-white hover:underline px-4 py-2">
-                  <p>Documentation</p>
+               <Link href="/aboutproject" className="block text-white hover:underline px-4 py-2">
+                  <p>About Project</p>
                </Link>
             </nav>
          )}
