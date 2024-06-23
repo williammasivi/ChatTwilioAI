@@ -1,5 +1,7 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
+import Image from 'next/image';
 import Header from "@/components/Header";
+
 
 type LayoutProps = {
   children: ReactNode;
