@@ -37,6 +37,8 @@ export default function Home() {
       }
    }
 
+   // Handle the loading
+   const [isWaitingForAI, setIsWaitingForAi] = useState(false);
    const onSubmit: SubmitHandler<FormInputs> = async (data) => {
       setIsWelcome(false);
       setLoading(true);
@@ -44,6 +46,7 @@ export default function Home() {
          setError('Error: Please enter something!');
          return;
       }
+      setIsWaitingForAi(true);
       try {
          const options = {
             method: 'POST',
@@ -67,11 +70,11 @@ export default function Home() {
                parts: result
             }];
          });
-         setLoading(false);
+         setIsWaitingForAi(false);
          reset();
       } catch (error) {
          setError('Something went wrong! Please try again later.');
-         setLoading(false);
+         setIsWaitingForAi(false);
       }
    };
 
@@ -82,6 +85,7 @@ export default function Home() {
                chatHistory?.length == 0 ? "" : chatHistory[chatHistory?.length - 1].parts
             } />
          </aside>
+<<<<<<< Updated upstream
          <aside className='w-full py-4 flex flex-col'>
             <div className="overflow-y-auto shadow-lg h-[80%] p-4 overflow-scroll">
                {error && <p className='text-red-500 text-center font-bold text-2xl'>{error}</p>}
@@ -110,6 +114,61 @@ export default function Home() {
                               {isSpeaking ? '🔊' : '🔈'}
                            </button>
                         )}
+=======
+         <aside className='flex-1 h-full w-full'>
+            <div className="w-full h-full bg-white rounded-lg shadow-lg overflow-hidden flex-1">
+               <div className="flex flex-col p-4 space-y-4 overflow-y-auto h-96">
+                  {error && <p className='text-red-500 text-center'>{error}</p>}
+                  <p>Hello! How can I help you today?</p>
+                  {/* {
+                     loading ? (
+                        <div className='flex w-full h-full items-center justify-center'>
+                           <Loading />
+                        </div>
+                     ) : null
+                  } */}
+                  {chatHistory?.map((chatItem, index) => (
+                     <div
+                        key={index}
+                        className={`flex ${chatItem?.role == 'model' ? 'justify-start' : 'justify-end'}`}
+                     >
+                        <div className={`p-4 rounded-md ${chatItem?.role == 'model' ? 'bg-gray-200' : 'bg-blue-500 text-white'} relative`}>
+                           <p>{chatItem?.role}:</p>
+                           <ReactMarkdown>{chatItem?.parts}</ReactMarkdown>
+                           {chatItem?.role === 'model' && (
+                              <button
+                                 onClick={() => speak(chatItem.parts)}
+                                 className="absolute bottom-2 right-2 bg-blue-500 text-white rounded-full p-2 hover:bg-blue-600 transition-colors"
+                              >
+                                 {isSpeaking ? '🔊' : '🔈'}
+                              </button>
+                           )}
+                        </div>
+                     </div>
+                  ))}
+                  {isWaitingForAI && (
+                     <div className='flex w-full items-center justify-center'>
+                        <Loading />
+                     </div>
+                  )}
+               </div>
+               {/* form to send data to the server */}
+               <div className="p-4 border-t border-gray-200 bg-gray-50">
+                  <form onSubmit={handleSubmit(onSubmit)}>
+                     <div className="flex items-center space-x-4">
+                        <input
+                           {...register("message")}
+                           type="text"
+                           placeholder="Type a message..."
+                           className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                        <button
+                           type="submit"
+                           className="px-4 py-2 bg-blue-500 text-white rounded-lg"
+                        >
+                           Send
+                        </button>
+>>>>>>> Stashed changes
                      </div>
                   </div>
 
