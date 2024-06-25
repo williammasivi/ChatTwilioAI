@@ -80,14 +80,14 @@ export default function Home() {
    };
 
    return (
-      <div className='bg-gray-100 flex w-full h-full'>
+      <div className='bg-gray-100 flex w-full h-[100vh]'>
          <aside className='h-full border-b border-r border-gray-200 hidden md:block p-4'>
             <MakeMessageCall lastResponse={
                chatHistory?.length == 0 ? "" : chatHistory[chatHistory?.length - 1].parts
             } />
          </aside>
          <aside
-            className='w-full py-4 flex flex-col h-screen'
+            className='w-full py-4 flex flex-col'
             style={{ height: 'calc(100vh-200px)' }}>
             <div className="overflow-y-auto shadow-lg h-[100%] p-4 overflow-scroll">
                {error && <p className='text-red-500 text-center font-bold text-2xl'>{error}</p>}

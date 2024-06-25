@@ -90,7 +90,7 @@ export default function Documentation() {
           
         </section>
         
-        <section className="mb-4 md:mb-8">
+        <section className="md:mb-8 mb-16">
           <h3 className="text-xl md:text-2xl font-semibold text-gray-800 mb-2 md:mb-4">Conclusion</h3>
           <p className="text-sm md:text-base text-gray-700">
             The AI Chat Application provides a robust and user-friendly platform for engaging in text-based conversations with an AI. Its features, including text-to-speech, Markdown support, and responsive design, enhance the user experience and accessibility, making it a versatile tool for a wide range of users.
