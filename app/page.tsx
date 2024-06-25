@@ -5,14 +5,15 @@ import Loading from '@/components/Loading';
 import MakeMessageCall from '@/components/MakeMessageCall';
 import ReactMarkdown from 'react-markdown';
 import removeMd from 'remove-markdown';
+import { TbSend2 } from "react-icons/tb";
 
-const linkBACKEND = 'https://chattwilioai-backend.onrender.com/api/questions';
 
 interface FormInputs {
    message: string;
 }
 
 export default function Home() {
+   const BACKEND_API_LINK = 'https://chattwilioai-backend.onrender.com/api/questions';
    const [error, setError] = useState("");
    const [loading, setLoading] = useState(true);
    const [isWelcome, setIsWelcome] = useState(true);
@@ -58,7 +59,7 @@ export default function Home() {
                'Content-Type': 'application/json'
             }
          }
-         const response = await fetch(linkBACKEND, options);
+         const response = await fetch(BACKEND_API_LINK, options);
          const result = await response.text();
          setChatHistory(function (prevChatHistory) {
             return [...prevChatHistory, {
@@ -85,8 +86,10 @@ export default function Home() {
                chatHistory?.length == 0 ? "" : chatHistory[chatHistory?.length - 1].parts
             } />
          </aside>
-         <aside className='w-full py-4 flex flex-col'>
-            <div className="overflow-y-auto shadow-lg h-[80%] p-4 overflow-scroll">
+         <aside
+            className='w-full py-4 flex flex-col h-screen'
+            style={{ height: 'calc(100vh-200px)' }}>
+            <div className="overflow-y-auto shadow-lg h-[100%] p-4 overflow-scroll">
                {error && <p className='text-red-500 text-center font-bold text-2xl'>{error}</p>}
                {isWelcome && <p className='text-3xl text-slate-500 font-bold text-center mt-12'>Hello! How can I help you today?</p>}
 
@@ -112,35 +115,37 @@ export default function Home() {
                   </div>
 
                ))}
-                     {isWaitingForAI && (
-                     <div className='flex w-full items-center justify-center'>
-                        <Loading />
-                     </div>
-                  )}
+               {isWaitingForAI && (
+                  <div className='flex w-full items-center justify-center'>
+                     <Loading />
+                  </div>
+               )}
             </div>
 
             {/* form to send data to the server */}
 
             <form
                onSubmit={handleSubmit(onSubmit)}
-               className={'p-4 border-t border-gray-200 bg-gray-100 h-[75px]'}>
-               <div className="flex items-center space-x-4">
+               className={'h-[150px] px-2 md:px-4 lg:px-6'}>
+               <div className="p-3 flex bg-white gap-2 items-center md:space-x-4 md:px-4 py-2 border border-gray-300 rounded-lg mt-3">
                   <input
                      {...register("message")}
                      type="text"
                      placeholder="Type a message..."
-                     className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-700"
+                     className="flex-1 rounded-lg focus:outline-none text-slate-700 outline-none"
                   />
                   <button
                      type="submit"
-                     className="px-4 py-2 bg-blue-500 text-white rounded-lg"
                   >
-                     Send
+                     <TbSend2
+                        color='#4343f3'
+                        size={24}
+                     />
                   </button>
                </div>
             </form>
 
-         </aside >
+         </aside>
       </div >
    );
 }
