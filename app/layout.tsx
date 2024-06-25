@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Layout from "@/components/Layout";
+import Layout from '@/layout/Layout';
 import "./index.css";
 
 
